@@ -1,16 +1,22 @@
-const connectToMongo = require("./db");
+const express = require('express');
+const connectToMongo = require('./db');
+const app = express();
+const port = 3000;
 
-const express = require('express')
-const app = express()
-const port = 3000
+app.use(express.json());
 
-app.use(express.json())
+// Optional root route
+app.get("/", (req, res) => {
+  res.send("API Home Page");
+});
 
-app.use('/api/auth', require("./routes/auth"))
-app.use('/api/notes', require("./routes/notes"))
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/notes', require('./routes/notes'));
 
+// Start server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Server running at http://localhost:${port}`);
+});
 
 connectToMongo();
